@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-@ServerEndpoint("/endpoint/{user}")
+@ServerEndpoint("/endpoint")
 public class Endpoint {
     private Session session;
     private static Set<Endpoint> Endpoints
@@ -26,11 +26,11 @@ public class Endpoint {
     }
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("user") String user) {
+    public void onOpen(Session session) {
         System.out.println("connection opened::" + session.getId());
         this.session = session;
         Endpoints.add(this);
-        users.put(session.getId(), user);
+        users.put(session.getId(), "test");
     }
 
     @OnClose
