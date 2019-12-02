@@ -1,4 +1,4 @@
-package plus.planner.api.plusplannerapi;
+package plus.planner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
