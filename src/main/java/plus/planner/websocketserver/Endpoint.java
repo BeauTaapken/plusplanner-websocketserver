@@ -5,26 +5,32 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import javax.websocket.*;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
-@ServerEndpoint("/endpoint")
-public class WebsocketHandeler {
+@ServerEndpoint("/endpoint/{user}")
+public class Endpoint {
     private Session session;
-    private static Set<WebsocketHandeler>
+    private static Set<Endpoint> Endpoints
+        = new CopyOnWriteArraySet<>();
+    private static HashMap<String, String> users = new HashMap<>();
     private Validator validate;
 
-    public WebsocketHandeler() {
+    public Endpoint() {
         System.out.println("class loaded");
         validate = new Validator();
     }
 
     @OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(Session session, @PathParam("user") String user) {
         System.out.println("connection opened::" + session.getId());
-        //TODO get all the chat information
-
-
+        this.session = session;
+        Endpoints.add(this);
+        users.put(session.getId(), user);
 
         try {
             session.getBasicRemote().sendText("User joined");
@@ -48,26 +54,24 @@ public class WebsocketHandeler {
             JsonObject object = element.getAsJsonObject();
             String uuid = "";
             //Test if item contains a valid uuid.
-            if(validate.testUUID(uuid) == true){
+            if(validate.testUUID(uuid) == true && object.get("task").toString() == "AddSubPart"){
                 //See if its Message or Planning in json
+            } else {
                 switch (object.get("task").toString()){
-                    case "message":
+                    case "ChatMessage":
                         System.out.println("got message");
-
                         break;
-                    case "update":
+                    case "UpdateSubPart":
                         System.out.println("got a update");
                         break;
-                    case "create":
-                        System.out.println("got a create");
-                        break;
-                    case "delete":
+                    case "DeleteSubPart":
                         System.out.println("got a delete");
                         break;
                     default:
                         System.out.println("Something went wrong");
                 }
             }
+            broadcast(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,7 +82,15 @@ public class WebsocketHandeler {
         t.printStackTrace();
     }
 
-    private static void (){
-        
+    private static void broadcast(String message) throws IOException{
+        Endpoints.forEach(endpoint -> {
+            synchronized (endpoint) {
+                try{
+                    endpoint.session.getBasicRemote().sendText(message);
+                } catch(IOException e) {
+                    e.printStackTrace();;
+                }
+            }
+        });
     }
 }
