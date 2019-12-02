@@ -1,4 +1,4 @@
-package plus.planner;
+package plus.planner.websocketserver;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

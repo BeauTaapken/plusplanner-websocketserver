@@ -31,12 +31,6 @@ public class Endpoint {
         this.session = session;
         Endpoints.add(this);
         users.put(session.getId(), user);
-
-        try {
-            session.getBasicRemote().sendText("User joined");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @OnClose
