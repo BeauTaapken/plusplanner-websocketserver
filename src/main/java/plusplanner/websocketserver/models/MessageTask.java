@@ -8,8 +8,6 @@ import lombok.Setter;
 public class MessageTask {
 
     private String task;
-    private String time;
-    private String UUID;
     private Message element;
     public MessageTask() {
     }

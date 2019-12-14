@@ -8,10 +8,10 @@ import lombok.Setter;
 public class Message {
 
     private String messageid;
-    private String sender;
+    private String channelid;
+    private String userid;
     private String content;
-    private String chat;
-    private String date;
+    private String senddate;
     public Message() {
     }
 }

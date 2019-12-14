@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import plusplanner.websocketserver.models.MessageTask;
 import plusplanner.websocketserver.models.Message;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -24,12 +26,9 @@ public class MessageController {
     public void saveMessage(String json){
         try {
             MessageTask m = mapper.readValue(json, MessageTask.class);
-            url = new URL("http://localhost:8084/message/create/" + m.getElement());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
+            String s = mapper.writeValueAsString(m.getElement());
+            url = new URL("http://localhost:8084/message/create/" + s);
+        } catch (MalformedURLException | JsonProcessingException e) {
             e.printStackTrace();
         }
     }
@@ -37,12 +36,8 @@ public class MessageController {
     public void deleteMessage(String json){
         try {
             MessageTask m = mapper.readValue(json, MessageTask.class);
-            url = new URL("http://localhost:8084/message/delete/" + m.getElement());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (JsonProcessingException e) {
+            url = new URL("http://localhost:8084/message/delete/" + m.getElement().getMessageid().toString());
+        } catch (MalformedURLException | JsonProcessingException e) {
             e.printStackTrace();
         }
     }

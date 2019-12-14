@@ -39,7 +39,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
         public void handleTextMessage(WebSocketSession session, TextMessage message){
             for(WebSocketSession s : sessions){
                 try{
-                    // pd.ControlPathing(message.toString());
+                    pd.ControlPathing(message.toString());
                     s.sendMessage(message);
                 } catch (IOException e){
                     e.printStackTrace();

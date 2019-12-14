@@ -1,7 +1,11 @@
 package plusplanner.websocketserver.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import plusplanner.websocketserver.models.MessageTask;
+import plusplanner.websocketserver.models.SubPartTask;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,8 +15,6 @@ public class SubPartController {
     @Autowired
     private ObjectMapper mapper;
 
-    //TODO funish crud functionalities
-
     public SubPartController() {
         mapper = new ObjectMapper();
     }
@@ -21,28 +23,29 @@ public class SubPartController {
     URLConnection conn = null;
     public void saveSubPart(String json){
         try {
-            url = new URL("http://localhost:8081/subpart/create/" + json);
-        } catch (MalformedURLException e) {
+            SubPartTask p = mapper.readValue(json, SubPartTask.class);
+            String s = mapper.writeValueAsString(p.getElement());
+            url = new URL("http://localhost:8081/subpart/create/" + s);
+        } catch (MalformedURLException | JsonProcessingException e) {
             e.printStackTrace();
         }
     }
 
     public void deleteSubPart(String json){
-
-        String id = "";
         try {
-            url = new URL("http://localhost:8081/subpart/delete/" + id);
-        } catch (MalformedURLException e) {
+            SubPartTask p = mapper.readValue(json, SubPartTask.class);
+            url = new URL("http://localhost:8081/subpart/delete/" + p.getElement().getPartid());
+        } catch (MalformedURLException | JsonProcessingException e) {
             e.printStackTrace();
         }
     }
 
     public void updateSubPart(String json){
-
-        String id = "";
         try {
-            url = new URL("http://localhost:8081/subpart/update/" + json);
-        } catch (MalformedURLException e) {
+            SubPartTask p = mapper.readValue(json, SubPartTask.class);
+            String s = mapper.writeValueAsString(p.getElement());
+            url = new URL("http://localhost:8081/subpart/update/" + s);
+        } catch (MalformedURLException | JsonProcessingException e) {
             e.printStackTrace();
         }
     }
