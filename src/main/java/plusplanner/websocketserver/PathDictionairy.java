@@ -11,6 +11,7 @@ public class PathDictionairy {
     private MessageController mc;
     private SubPartController sc;
     private ObjectMapper mapper;
+
     public PathDictionairy() {
         mc = new MessageController();
         sc = new SubPartController();

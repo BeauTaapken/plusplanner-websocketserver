@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import plusplanner.websocketserver.models.JsonObj;
 import plusplanner.websocketserver.models.MessageTask;
 
-public class baseController {
+public class BaseController {
 
     @Autowired
     private ObjectMapper mapper;
 
-    public baseController(){
+    public BaseController(){
         mapper = new ObjectMapper();
     }
 

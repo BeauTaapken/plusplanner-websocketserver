@@ -8,7 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 import plusplanner.websocketserver.models.SubPartTask;
 
-public class SubPartController extends baseController{
+public class SubPartController extends BaseController {
     @Autowired
     private ObjectMapper mapper;
 

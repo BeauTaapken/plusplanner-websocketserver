@@ -8,9 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 import plusplanner.websocketserver.models.MessageTask;
 
-import java.net.MalformedURLException;
-
-public class MessageController {
+public class MessageController extends BaseController {
     @Autowired
     private ObjectMapper mapper;
 
