@@ -6,9 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class JsonObj {
-    private String task;
-    private String time;
-    private String UUID;
+    private Enum<crud> task;
+    private String type;
     private Object element;
     public JsonObj() {
     }

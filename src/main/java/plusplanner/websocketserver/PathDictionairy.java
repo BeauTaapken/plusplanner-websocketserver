@@ -20,12 +20,9 @@ public class PathDictionairy {
     public void ControlPathing(String json){
         try {
             JsonObj obj = mapper.readValue(json, JsonObj.class);
-            switch (obj.getTask()){
-                case "AddSubpart" :  sc.saveSubPart(json); break;
-                case "UpdateSubpart": sc.updateSubPart(json); break;
-                case "RemoveSubpart":  sc.deleteSubPart(json); break;
-                case "AddMessage":  mc.saveMessage(json); break;
-                case "RemoveMessage":  mc.deleteMessage(json); break;
+            switch (obj.getType()){
+                case "Message" :  sc.saveSubPart(json); break;
+                case "Supbart":  mc.deleteMessage(json); break;
                 default: break;
             }
         } catch (JsonProcessingException e) {

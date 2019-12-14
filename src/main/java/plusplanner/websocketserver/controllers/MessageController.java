@@ -25,7 +25,7 @@ public class MessageController {
         try {
             MessageTask m = mapper.readValue(json, MessageTask.class);
             String s = mapper.writeValueAsString(m.getElement());
-            restTemplate.postForObject("http://plus-planner-channel-service/message/create/" + s, new HttpEntity<>(new HttpHeaders()), String.class);
+            restTemplate.postForObject("http://plus-planner-message-service/message/create/" + s, new HttpEntity<>(new HttpHeaders()), String.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -34,7 +34,7 @@ public class MessageController {
     public void deleteMessage(String json) {
         try {
             MessageTask m = mapper.readValue(json, MessageTask.class);
-            restTemplate.postForObject("http://localhost:8084/message/delete/" + m.getElement().getMessageid(), new HttpEntity<String>(new HttpHeaders()), String.class);
+            restTemplate.postForObject("http://plus-planner-message-service/message/delete/" + m.getElement().getMessageid(), new HttpEntity<String>(new HttpHeaders()), String.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
