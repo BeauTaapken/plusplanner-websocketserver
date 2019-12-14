@@ -31,6 +31,7 @@ public class MessagesHandler extends TextWebSocketHandler {
 
     private List<SessionWrapper> sessions = new CopyOnWriteArrayList<>();
 
+    @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(new SessionWrapper(session, "", null));
     }
@@ -46,6 +47,7 @@ public class MessagesHandler extends TextWebSocketHandler {
     }
 
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        System.out.println(message.getPayload());
         SessionWrapper sessionWrapper = sessions.stream().filter(x -> x.getSession() == session).collect(Collectors.toList()).get(0);
         if (sessionWrapper.getInterest() == "") {
             sessionWrapper.setInterest(message.getPayload().split("\n")[0]);
