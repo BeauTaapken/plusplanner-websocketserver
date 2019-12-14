@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Message {
-
     private String messageid;
     private String channelid;
     private String content;

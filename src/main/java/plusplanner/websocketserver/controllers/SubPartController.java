@@ -8,10 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 import plusplanner.websocketserver.models.SubPartTask;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-public class SubPartController {
+public class SubPartController extends baseController{
     @Autowired
     private ObjectMapper mapper;
 
@@ -21,17 +18,11 @@ public class SubPartController {
     public SubPartController() {
         mapper = new ObjectMapper();
     }
-    public void saveSubPart(String json){
-        try {
-            SubPartTask p = mapper.readValue(json, SubPartTask.class);
-            String s = mapper.writeValueAsString(p.getElement());
-            restTemplate.postForObject("http://localhost:8081/subpart/create/" + s, new HttpEntity<>(new HttpHeaders()), String.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    public void saveElement(String json){
+        restTemplate.postForObject("http://localhost:8081/subpart/create/" + json, new HttpEntity<>(new HttpHeaders()), String.class);
     }
 
-    public void deleteSubPart(String json){
+    public void deleteElement(String json){
         try {
             SubPartTask p = mapper.readValue(json, SubPartTask.class);
             restTemplate.postForObject("http://localhost:8081/subpart/delete/" + p.getElement().getPartid(), new HttpEntity<>(new HttpHeaders()), String.class);
@@ -40,13 +31,7 @@ public class SubPartController {
         }
     }
 
-    public void updateSubPart(String json){
-        try {
-            SubPartTask p = mapper.readValue(json, SubPartTask.class);
-            String s = mapper.writeValueAsString(p.getElement());
-            restTemplate.postForObject("http://localhost:8081/subpart/update/" + s, new HttpEntity<>(new HttpHeaders()), String.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    public void updateElement(String json){
+        restTemplate.postForObject("http://localhost:8081/subpart/update/" + json, new HttpEntity<>(new HttpHeaders()), String.class);
     }
 }
