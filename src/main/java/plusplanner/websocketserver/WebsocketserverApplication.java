@@ -18,6 +18,9 @@ public class WebsocketserverApplication {
 	}
 
 	public static void main(String[] args) {
+		java.security.Security.addProvider(
+				new org.bouncycastle.jce.provider.BouncyCastleProvider()
+		);
 		SpringApplication.run(WebsocketserverApplication.class, args);
 	}
 
