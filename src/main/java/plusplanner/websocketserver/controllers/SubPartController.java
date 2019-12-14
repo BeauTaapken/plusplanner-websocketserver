@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
+import plusplanner.websocketserver.models.JsonObj;
 import plusplanner.websocketserver.models.MessageTask;
+import plusplanner.websocketserver.models.SubPart;
 import plusplanner.websocketserver.models.SubPartTask;
 
 import java.net.MalformedURLException;
@@ -26,13 +28,7 @@ public class SubPartController extends baseController{
     }
 
     public void saveElement(String json){
-        try {
-            SubPartTask p = mapper.readValue(json, SubPartTask.class);
-            String s = mapper.writeValueAsString(p.getElement());
-            restTemplate.postForObject("http://localhost:8081/subpart/create/" + s, new HttpEntity<>(new HttpHeaders()), String.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        restTemplate.postForObject("http://localhost:8081/subpart/create/" + json, new HttpEntity<>(new HttpHeaders()), String.class);
     }
 
     public void deleteElement(String json){
@@ -45,12 +41,6 @@ public class SubPartController extends baseController{
     }
 
     public void updateElement(String json){
-        try {
-            SubPartTask p = mapper.readValue(json, SubPartTask.class);
-            String s = mapper.writeValueAsString(p.getElement());
-            restTemplate.postForObject("http://localhost:8081/subpart/update/" + s, new HttpEntity<>(new HttpHeaders()), String.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        restTemplate.postForObject("http://localhost:8081/subpart/update/" + json, new HttpEntity<>(new HttpHeaders()), String.class);
     }
 }
