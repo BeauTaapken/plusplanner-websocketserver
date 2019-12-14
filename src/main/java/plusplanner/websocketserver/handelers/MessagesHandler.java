@@ -31,6 +31,8 @@ public class MessagesHandler extends TextWebSocketHandler {
 
     private List<SessionWrapper> sessions = new CopyOnWriteArrayList<>();
 
+
+    @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(new SessionWrapper(session, "", null));
     }
@@ -45,12 +47,14 @@ public class MessagesHandler extends TextWebSocketHandler {
         super.afterConnectionClosed(session, status);
     }
 
+    @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        System.out.println(message.getPayload());
         SessionWrapper sessionWrapper = sessions.stream().filter(x -> x.getSession() == session).collect(Collectors.toList()).get(0);
         if (sessionWrapper.getInterest() == "") {
             sessionWrapper.setInterest(message.getPayload().split("\n")[0]);
             try {
-                Algorithm algorithm = Algorithm.RSA512((RSAPublicKey) readPublicKeyFromFile("src/main/resources/PublicKey.pem", "RSA"), null);
+                Algorithm algorithm = Algorithm.RSA512((RSAPublicKey) readPublicKeyFromFile("../plusplanner-websocketserver/src/main/resources/PublicKey.pem", "RSA"), null);
                 JWTVerifier verifier = JWT.require(algorithm)
                         .withIssuer("plus-planner-token-service")
                         .build();
@@ -64,11 +68,11 @@ public class MessagesHandler extends TextWebSocketHandler {
                 closeConnection(session);
             }
         } else {
+            // Update all clients with message
             for (SessionWrapper sw : sessions) {
                 try {
                     String interest = sessionWrapper.getInterest();
                     if (sw.getInterest().equals(interest)) {
-                        pd.ControlPathing(message.toString());
                         WebSocketSession s = sw.getSession();
                         s.sendMessage(message);
                     }
@@ -76,6 +80,8 @@ public class MessagesHandler extends TextWebSocketHandler {
                     e.printStackTrace();
                 }
             }
+            // Process the message and eventually call the Rest API
+            pd.ControlPathing(message.getPayload());
         }
     }
 }

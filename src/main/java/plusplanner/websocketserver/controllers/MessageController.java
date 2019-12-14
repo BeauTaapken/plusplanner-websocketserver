@@ -1,40 +1,34 @@
 package plusplanner.websocketserver.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
-import plusplanner.websocketserver.models.MessageTask;
 
 public class MessageController extends BaseController {
     @Autowired
-    private ObjectMapper mapper;
-
-    @Autowired
     private RestTemplate restTemplate;
 
-    public MessageController() {
-        mapper = new ObjectMapper();
+    public MessageController(JSONObject json) {
+        super(json);
     }
 
-    public void saveMessage(String json) {
-        try {
-            MessageTask m = mapper.readValue(json, MessageTask.class);
-            String s = mapper.writeValueAsString(m.getElement());
-            restTemplate.postForObject("http://plus-planner-message-service/message/create/" + s, new HttpEntity<>(new HttpHeaders()), String.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    @Override
+    void save(JSONObject data) {
+
     }
 
-    public void deleteMessage(String json) {
-        try {
-            MessageTask m = mapper.readValue(json, MessageTask.class);
-            restTemplate.postForObject("http://plus-planner-message-service/message/delete/" + m.getElement().getMessageid(), new HttpEntity<String>(new HttpHeaders()), String.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    @Override
+    void delete(JSONObject data) {
+
+    }
+
+    @Override
+    void update(JSONObject data) {
+
+    }
+
+    @Override
+    void put(JSONObject data) {
+
     }
 }

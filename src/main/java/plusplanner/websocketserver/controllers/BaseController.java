@@ -1,32 +1,37 @@
 package plusplanner.websocketserver.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import plusplanner.websocketserver.models.JsonObj;
-import plusplanner.websocketserver.models.MessageTask;
+import org.json.JSONObject;
 
-public class BaseController {
+public abstract class BaseController {
 
-    @Autowired
-    private ObjectMapper mapper;
+    JSONObject json;
 
-    public BaseController(){
-        mapper = new ObjectMapper();
+    public BaseController(JSONObject json) {
+        this.json = json;
     }
 
-    public void crudDistribution(String json) throws JsonProcessingException {
-        JsonObj obj = mapper.readValue(json, JsonObj.class);
-        switch(obj.getTask().toString()){
-            case "save": saveElement(json); break;
-            case "delete": deleteElement(json); break;
-            case "update": updateElement(json); break;
-            case "create": putElement(json); break;
+    public void crudDistribution(){
+        switch (json.getString("action")) {
+            case "save":
+                save(json);
+                break;
+            case "delete":
+                delete(json);
+                break;
+            case "update":
+                update(json);
+                break;
+            case "create":
+                put(json);
+                break;
         }
     }
 
-    public void saveElement(String json){}
-    public void deleteElement(String json){}
-    public void updateElement(String json){}
-    public void putElement(String json){}
+    abstract void save(JSONObject data);
+
+    abstract void delete(JSONObject data);
+
+    abstract void update(JSONObject data);
+
+    abstract void put(JSONObject data);
 }

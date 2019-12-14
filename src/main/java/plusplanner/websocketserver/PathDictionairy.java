@@ -1,33 +1,39 @@
 package plusplanner.websocketserver;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONException;
+import org.json.JSONObject;
+import plusplanner.websocketserver.controllers.BaseController;
 import plusplanner.websocketserver.controllers.MessageController;
 import plusplanner.websocketserver.controllers.SubPartController;
-import plusplanner.websocketserver.models.JsonObj;
 
 public class PathDictionairy {
 
-    private MessageController mc;
-    private SubPartController sc;
-    private ObjectMapper mapper;
+    private BaseController controller;
 
     public PathDictionairy() {
-        mc = new MessageController();
-        sc = new SubPartController();
-        mapper = new ObjectMapper();
     }
 
-    public void ControlPathing(String json){
+    public void ControlPathing(String json) {
+        JSONObject jsonObject = null;
         try {
-            JsonObj obj = mapper.readValue(json, JsonObj.class);
-            switch (obj.getType()){
-                case "Message" :  mc.crudDistribution(json); break;
-                case "Supbart":  sc.crudDistribution(json); break;
-                default: break;
-            }
-        } catch (JsonProcessingException e) {
+            jsonObject = new JSONObject(json);
+        } catch (JSONException e) {
             e.printStackTrace();
+        }
+        if(jsonObject != null)
+        {
+            switch (jsonObject.getString("type")) {
+                case "message":
+                    controller = new MessageController(jsonObject);
+                    controller.crudDistribution();
+                    break;
+                case "task":
+                    controller = new SubPartController(jsonObject);
+                    controller.crudDistribution();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
