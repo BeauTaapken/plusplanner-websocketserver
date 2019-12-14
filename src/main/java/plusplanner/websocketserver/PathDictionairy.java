@@ -22,7 +22,7 @@ public class PathDictionairy {
             JsonObj obj = mapper.readValue(json, JsonObj.class);
             switch (obj.getType()){
                 case "Message" :  mc.crudDistribution(json); break;
-                case "Supbart":  mc.deleteMessage(json); break;
+                case "Supbart":  sc.crudDistribution(json); break;
                 default: break;
             }
         } catch (JsonProcessingException e) {
