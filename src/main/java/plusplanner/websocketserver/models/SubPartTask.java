@@ -7,8 +7,7 @@ import lombok.Setter;
 @Setter
 public class SubPartTask {
     private String task;
-    private String time;
-    private String UUID;
+    private String type;
     private SubPart element;
 
     public SubPartTask() {
