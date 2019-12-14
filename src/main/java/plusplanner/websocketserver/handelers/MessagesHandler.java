@@ -54,7 +54,7 @@ public class MessagesHandler extends TextWebSocketHandler {
         if (sessionWrapper.getInterest() == "") {
             sessionWrapper.setInterest(message.getPayload().split("\n")[0]);
             try {
-                Algorithm algorithm = Algorithm.RSA512((RSAPublicKey) readPublicKeyFromFile("../plusplanner-websocketserver/src/main/resources/PublicKey.pem", "RSA"), null);
+                Algorithm algorithm = Algorithm.RSA512((RSAPublicKey) readPublicKeyFromFile("src/main/resources/PublicKey.pem", "RSA"), null);
                 JWTVerifier verifier = JWT.require(algorithm)
                         .withIssuer("plus-planner-token-service")
                         .build();
