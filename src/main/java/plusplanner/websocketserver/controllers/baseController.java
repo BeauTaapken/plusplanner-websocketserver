@@ -21,12 +21,12 @@ public class baseController {
             case "save": saveElement(json); break;
             case "delete": deleteElement(json); break;
             case "update": updateElement(json); break;
-            case "create": createElement(json); break;
+            case "create": putElement(json); break;
         }
     }
 
     public void saveElement(String json){}
     public void deleteElement(String json){}
     public void updateElement(String json){}
-    public void createElement(String json){}
+    public void putElement(String json){}
 }

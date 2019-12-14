@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class SubPartController {
+public class SubPartController extends baseController{
     @Autowired
     private ObjectMapper mapper;
 
@@ -25,9 +25,7 @@ public class SubPartController {
         mapper = new ObjectMapper();
     }
 
-    URL url = null;
-    URLConnection conn = null;
-    public void saveSubPart(String json){
+    public void saveElement(String json){
         try {
             SubPartTask p = mapper.readValue(json, SubPartTask.class);
             String s = mapper.writeValueAsString(p.getElement());
@@ -37,7 +35,7 @@ public class SubPartController {
         }
     }
 
-    public void deleteSubPart(String json){
+    public void deleteElement(String json){
         try {
             SubPartTask p = mapper.readValue(json, SubPartTask.class);
             restTemplate.postForObject("http://localhost:8081/subpart/delete/" + p.getElement().getPartid(), new HttpEntity<>(new HttpHeaders()), String.class);
@@ -46,7 +44,7 @@ public class SubPartController {
         }
     }
 
-    public void updateSubPart(String json){
+    public void updateElement(String json){
         try {
             SubPartTask p = mapper.readValue(json, SubPartTask.class);
             String s = mapper.writeValueAsString(p.getElement());

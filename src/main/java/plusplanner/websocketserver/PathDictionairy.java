@@ -21,7 +21,7 @@ public class PathDictionairy {
         try {
             JsonObj obj = mapper.readValue(json, JsonObj.class);
             switch (obj.getType()){
-                case "Message" :  sc.saveSubPart(json); break;
+                case "Message" :  mc.crudDistribution(json); break;
                 case "Supbart":  mc.deleteMessage(json); break;
                 default: break;
             }
