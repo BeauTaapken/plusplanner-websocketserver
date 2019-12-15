@@ -10,10 +10,8 @@ import plusplanner.websocketserver.handelers.MessagesHandler;
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
-    @Autowired
-    MessagesHandler msh;
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(msh, "/messages").setAllowedOrigins("*");
+        webSocketHandlerRegistry.addHandler(new MessagesHandler(), "/messages").setAllowedOrigins("*");
     }
 }
