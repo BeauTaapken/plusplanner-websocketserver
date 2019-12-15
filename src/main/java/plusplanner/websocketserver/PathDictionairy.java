@@ -3,14 +3,13 @@ package plusplanner.websocketserver;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import plusplanner.websocketserver.controllers.BaseController;
 import plusplanner.websocketserver.controllers.SubPartController;
 
 @Component
 public class PathDictionairy {
-    @Autowired
-    private SubPartController controller;
+    private BaseController controller;
 
     public PathDictionairy() {
     }
@@ -31,6 +30,7 @@ public class PathDictionairy {
                    // controller.crudDistribution(jsonObject, token);
                     break;
                 case "task":
+                    controller = new SubPartController();
                     controller.crudDistribution(jsonObject, token);
                     break;
                 default:
