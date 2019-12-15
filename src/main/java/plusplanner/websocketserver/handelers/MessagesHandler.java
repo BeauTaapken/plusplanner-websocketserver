@@ -3,7 +3,6 @@ package plusplanner.websocketserver.handelers;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +64,7 @@ public class MessagesHandler extends TextWebSocketHandler {
         if (sessionWrapper.getInterest() == "") {
             sessionWrapper.setInterest(message.getPayload().split("\n")[0]);
             try {
-                Algorithm algorithm = Algorithm.RSA512((RSAPublicKey) readPublicKeyFromFile("../plusplanner-websocketserver/src/main/resources/PublicKey.pem", "RSA"), null);
+                Algorithm algorithm = Algorithm.RSA512((RSAPublicKey) readPublicKeyFromFile("src/main/resources/PublicKey.pem", "RSA"), null);
                 JWTVerifier verifier = JWT.require(algorithm)
                         .withIssuer("plus-planner-token-service")
                         .build();
@@ -92,6 +91,7 @@ public class MessagesHandler extends TextWebSocketHandler {
                 }
             }
             // Process the message and eventually call the Rest API
+            System.out.println(pd == null);
             pd.ControlPathing(message.getPayload(), sessionWrapper.getUserData());
         }
     }
