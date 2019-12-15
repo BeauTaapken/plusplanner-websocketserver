@@ -26,8 +26,8 @@ import static plusplanner.websocketserver.utils.PemUtils.readPublicKeyFromFile;
 
 @Component
 public class MessagesHandler extends TextWebSocketHandler {
-    // Autowire didnt seem to work. So could never update messaged to rest
-    private PathDictionairy pd = new PathDictionairy();
+    @Autowired
+    private PathDictionairy pd;
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private List<SessionWrapper> sessions = new CopyOnWriteArrayList<>();
