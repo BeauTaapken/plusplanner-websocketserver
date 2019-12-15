@@ -1,19 +1,22 @@
 package plusplanner.websocketserver;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.json.JSONException;
 import org.json.JSONObject;
-import plusplanner.websocketserver.controllers.BaseController;
-import plusplanner.websocketserver.controllers.MessageController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import plusplanner.websocketserver.controllers.SubPartController;
 
+@Component
 public class PathDictionairy {
-
-    private BaseController controller;
+    @Autowired
+    private SubPartController controller;
 
     public PathDictionairy() {
     }
 
-    public void ControlPathing(String json) {
+    public void ControlPathing(String json, DecodedJWT token) {
+        System.out.println(json);
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(json);
@@ -24,12 +27,11 @@ public class PathDictionairy {
         {
             switch (jsonObject.getString("type")) {
                 case "message":
-                    controller = new MessageController(jsonObject);
-                    controller.crudDistribution();
+                    //controller = new MessageController();
+                   // controller.crudDistribution(jsonObject, token);
                     break;
                 case "task":
-                    controller = new SubPartController(jsonObject);
-                    controller.crudDistribution();
+                    controller.crudDistribution(jsonObject, token);
                     break;
                 default:
                     break;

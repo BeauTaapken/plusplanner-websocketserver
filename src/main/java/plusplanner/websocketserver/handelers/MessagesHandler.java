@@ -6,6 +6,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -26,7 +27,8 @@ import static plusplanner.websocketserver.utils.PemUtils.readPublicKeyFromFile;
 
 @Component
 public class MessagesHandler extends TextWebSocketHandler {
-    private PathDictionairy pd = new PathDictionairy();
+    @Autowired
+    private PathDictionairy pd;
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private List<SessionWrapper> sessions = new CopyOnWriteArrayList<>();
@@ -81,7 +83,7 @@ public class MessagesHandler extends TextWebSocketHandler {
                 }
             }
             // Process the message and eventually call the Rest API
-            pd.ControlPathing(message.getPayload());
+            pd.ControlPathing(message.getPayload(), sessionWrapper.getUserData());
         }
     }
 }
