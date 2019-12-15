@@ -1,37 +1,27 @@
 package plusplanner.websocketserver.controllers;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.json.JSONObject;
 
 public abstract class BaseController {
 
-    JSONObject json;
-
-    public BaseController(JSONObject json) {
-        this.json = json;
-    }
-
-    public void crudDistribution(){
+    public void crudDistribution(JSONObject json, DecodedJWT token){
         switch (json.getString("action")) {
-            case "save":
-                save(json);
-                break;
             case "delete":
-                delete(json);
+                delete(json, token);
                 break;
             case "update":
-                update(json);
+                update(json, token);
                 break;
             case "create":
-                put(json);
+                put(json, token);
                 break;
         }
     }
 
-    abstract void save(JSONObject data);
+    abstract void delete(JSONObject data, DecodedJWT token);
 
-    abstract void delete(JSONObject data);
+    abstract void update(JSONObject data, DecodedJWT token);
 
-    abstract void update(JSONObject data);
-
-    abstract void put(JSONObject data);
+    abstract void put(JSONObject data, DecodedJWT token);
 }
