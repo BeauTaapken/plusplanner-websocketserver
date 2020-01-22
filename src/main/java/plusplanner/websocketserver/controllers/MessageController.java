@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Deprecated
 public class MessageController extends BaseController {
     @Autowired
     private RestTemplate restTemplate;

@@ -3,6 +3,7 @@ package plusplanner.websocketserver.controllers;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.json.JSONObject;
 
+@Deprecated
 public abstract class BaseController {
 
     public void crudDistribution(JSONObject json, DecodedJWT token){

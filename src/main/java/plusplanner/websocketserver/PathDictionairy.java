@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import plusplanner.websocketserver.controllers.SubPartController;
 
 @Component
+@Deprecated
 public class PathDictionairy {
     @Autowired
     private SubPartController controller;

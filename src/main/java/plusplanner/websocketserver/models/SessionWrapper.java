@@ -7,12 +7,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.socket.WebSocketSession;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
-@Setter
 public class SessionWrapper {
-    private WebSocketSession session;
+    private final WebSocketSession session;
+    @Setter
     private String interest;
-    private DecodedJWT userData;
+    @Setter
+    private DecodedJWT token;
+
+    public SessionWrapper(WebSocketSession webSocketSession){
+        this.session = webSocketSession;
+    }
+
+    public boolean isComplete(){
+        return !(token == null || interest == null || session == null);
+    }
 }

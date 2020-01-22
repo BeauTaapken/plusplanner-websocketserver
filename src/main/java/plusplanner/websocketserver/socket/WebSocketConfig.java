@@ -1,11 +1,11 @@
-package plusplanner.websocketserver;
+package plusplanner.websocketserver.socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import plusplanner.websocketserver.handelers.MessagesHandler;
+import plusplanner.websocketserver.socket.MessagesHandler;
 
 @Configuration
 @EnableWebSocket
