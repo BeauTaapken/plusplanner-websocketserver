@@ -5,11 +5,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
+import org.springframework.stereotype.Component;
 import plusplanner.websocketserver.models.Role;
 import plusplanner.websocketserver.models.SessionWrapper;
 
 import java.util.Arrays;
 
+@Component
 public class TokenHandler {
     private final JWTVerifier jwtVerifier;
     private final ObjectMapper mapper;
