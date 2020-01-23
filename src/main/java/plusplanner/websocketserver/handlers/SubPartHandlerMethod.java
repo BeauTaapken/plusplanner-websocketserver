@@ -23,7 +23,8 @@ public class SubPartHandlerMethod extends HandlerMethod {
 
     @Override
     void update(JSONObject jsonObject) {
-
+        final HttpEntity httpEntity = new HttpEntity(jsonObject.get("element").toString());
+        restTemplate.postForObject("http://plus-planner-subpart-service/subpart/update", httpEntity, String.class);
     }
 
     @Override
