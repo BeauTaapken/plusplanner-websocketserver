@@ -11,9 +11,13 @@ import java.util.List;
 public class ValidatorConfig {
     @Bean
     @Autowired
-    public List<Validator> validators(PartValidator partValidator){
+    public List<Validator> validators(PartValidator partValidator,
+                                      MessageValidator messageValidator,
+                                      SubPartValidator subPartValidator){
         final List<Validator> validators =  new ArrayList<>();
         validators.add(partValidator);
+        validators.add(messageValidator);
+        validators.add(subPartValidator);
         return validators;
     }
 }

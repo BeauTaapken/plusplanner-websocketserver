@@ -12,9 +12,13 @@ public class HandlerConfig {
 
     @Bean
     @Autowired
-    public List<HandlerMethod> handlerMethods(MessageHandlerMethod messageHandlerMethod){
+    public List<HandlerMethod> handlerMethods(MessageHandlerMethod messageHandlerMethod,
+                                              PartHandlerMethod partHandlerMethod,
+                                              SubPartHandlerMethod subPartHandlerMethod){
         final List<HandlerMethod> methods = new ArrayList<>();
         methods.add(messageHandlerMethod);
+        methods.add(partHandlerMethod);
+        methods.add(subPartHandlerMethod);
         return methods;
     }
 }
