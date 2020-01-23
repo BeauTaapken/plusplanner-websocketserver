@@ -13,11 +13,15 @@ public class ValidatorConfig {
     @Autowired
     public List<Validator> validators(PartValidator partValidator,
                                       MessageValidator messageValidator,
-                                      SubPartValidator subPartValidator){
+                                      SubPartValidator subPartValidator,
+                                      ChannelValidator channelValidator,
+                                      ChatValidator chatValidator){
         final List<Validator> validators =  new ArrayList<>();
         validators.add(partValidator);
         validators.add(messageValidator);
         validators.add(subPartValidator);
+        validators.add(channelValidator);
+        validators.add(chatValidator);
         return validators;
     }
 }

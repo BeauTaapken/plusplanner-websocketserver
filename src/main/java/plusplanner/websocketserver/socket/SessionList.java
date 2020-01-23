@@ -38,6 +38,7 @@ public class SessionList {
         } catch (IOException e) {
             logger.debug("session already closed: {}", e.getMessage());
         }
+        logger.info("closing socket: {}",session.getId());
         sessions.removeIf(x -> x.getSession() == session);
     }
 }

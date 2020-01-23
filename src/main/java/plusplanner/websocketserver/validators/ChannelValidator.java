@@ -6,10 +6,10 @@ import plusplanner.websocketserver.models.Permission;
 import plusplanner.websocketserver.models.RoleType;
 
 @Component
-public class PartValidator extends Validator {
+public class ChannelValidator extends Validator {
 
-    public PartValidator() {
-        super("part");
+    public ChannelValidator(){
+        super("channel");
     }
 
     @Override
