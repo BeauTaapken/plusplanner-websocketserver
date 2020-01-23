@@ -41,12 +41,14 @@ public class ReactorExecutor {
                     .filter(x -> x.getProjectid().equals(projectid))
                     .findFirst().orElseThrow();
             if (!validator.validate(jsonObject, permission, sessionWrapper.getUid())) {
+                System.out.println("invalid");
                 return false;
             }
             handlerMethod.handle(jsonObject);
             broadCaster.broadCast(jsonObject, projectid);
             return true;
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

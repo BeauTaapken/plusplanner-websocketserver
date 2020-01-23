@@ -13,6 +13,6 @@ public class MessageValidator extends Validator {
 
     @Override
     public boolean validate(JSONObject jsonObject, Permission permission, String uid) {
-        return jsonObject.getJSONObject("element").getString("senderid").equals(uid);
+        return jsonObject.getJSONObject("element").getString("userid").equals(uid);
     }
 }
