@@ -3,17 +3,16 @@ package plusplanner.websocketserver.validators;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import plusplanner.websocketserver.models.Permission;
-import plusplanner.websocketserver.models.RoleType;
 
 @Component
-public class PartValidator extends Validator {
+public class MessageValidator extends Validator {
 
-    public PartValidator() {
-        super("part");
+    public MessageValidator(){
+        super("message");
     }
 
     @Override
     public boolean validate(JSONObject jsonObject, Permission permission, String uid) {
-        return permission.getRole().ordinal() >= RoleType.MEMBER.ordinal();
+        return jsonObject.getJSONObject("element").getString("senderid").equals(uid);
     }
 }

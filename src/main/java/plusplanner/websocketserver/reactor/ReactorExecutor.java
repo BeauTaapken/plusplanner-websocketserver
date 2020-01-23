@@ -40,7 +40,7 @@ public class ReactorExecutor {
             final Permission permission = sessionWrapper.getPermissions().stream()
                     .filter(x -> x.getProjectid().equals(projectid))
                     .findFirst().orElseThrow();
-            if (!validator.validate(jsonObject, permission)) {
+            if (!validator.validate(jsonObject, permission, sessionWrapper.getUid())) {
                 return false;
             }
             handlerMethod.handle(jsonObject);

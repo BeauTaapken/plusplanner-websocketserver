@@ -1,5 +1,6 @@
 package plusplanner.websocketserver.handlers;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,12 +24,13 @@ public class TokenHandler {
 
     public boolean setToken(String message, SessionWrapper sessionWrapper) {
         try {
-            sessionWrapper.setToken(jwtVerifier.verify(message));
+            final DecodedJWT token = jwtVerifier.verify(message);
             sessionWrapper.setPermissions(
                     Arrays.asList(
-                            mapper.readValue(sessionWrapper.getToken().getClaims().get("pms").asString(), Permission[].class)
+                            mapper.readValue(token.getClaims().get("pms").asString(), Permission[].class)
                     )
             );
+            sessionWrapper.setUid(token.getClaim("uid").asString());
         } catch (JsonProcessingException e) {
             return false;
         }

@@ -8,5 +8,5 @@ public abstract class Validator extends TypeReactor {
 
     public Validator(String type){super(type);}
 
-    public abstract boolean validate(JSONObject jsonObject, Permission permission);
+    public abstract boolean validate(JSONObject jsonObject, Permission permission, String uid);
 }
