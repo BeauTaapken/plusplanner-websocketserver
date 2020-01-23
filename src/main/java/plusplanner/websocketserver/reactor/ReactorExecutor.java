@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import plusplanner.websocketserver.handlers.HandlerMethod;
+import plusplanner.websocketserver.models.Permission;
 import plusplanner.websocketserver.models.SessionWrapper;
 import plusplanner.websocketserver.socket.BroadCaster;
 import plusplanner.websocketserver.validators.Validator;
@@ -35,11 +36,15 @@ public class ReactorExecutor {
             final String type = jsonObject.getString("type");
             final Validator validator = getReactor(validators, type);
             final HandlerMethod handlerMethod = getReactor(handlerMethods, type);
-            if (!validator.validate(jsonObject, sessionWrapper)) {
+            final String projectid =  jsonObject.getString("projectid");
+            final Permission permission = sessionWrapper.getPermissions().stream()
+                    .filter(x -> x.getProjectid().equals(projectid))
+                    .findFirst().orElseThrow();
+            if (!validator.validate(jsonObject, permission)) {
                 return false;
             }
             handlerMethod.handle(jsonObject);
-            broadCaster.broadCast(jsonObject, sessionWrapper.getInterest());
+            broadCaster.broadCast(jsonObject, projectid);
             return true;
         } catch (Exception e) {
             return false;

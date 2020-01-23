@@ -5,10 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
+import plusplanner.websocketserver.models.Permission;
 import plusplanner.websocketserver.models.SessionWrapper;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BroadCaster {
@@ -23,7 +25,10 @@ public class BroadCaster {
         final List<SessionWrapper> sws = sessions.getSessions();
         final TextMessage textMessage = new TextMessage(jsonObject.toString());
         for (SessionWrapper webSocketSession : sws) {
-            if (webSocketSession.getInterests().contains(projectid)) {
+            if (webSocketSession.getPermissions()
+                    .stream().map(Permission::getProjectid)
+                    .collect(Collectors.toList())
+                    .contains(projectid)) {
                 try {
                     webSocketSession.getSession().sendMessage(textMessage);
                 } catch (IOException e) {

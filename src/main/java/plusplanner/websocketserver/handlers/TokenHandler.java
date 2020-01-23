@@ -10,7 +10,6 @@ import plusplanner.websocketserver.models.Permission;
 import plusplanner.websocketserver.models.SessionWrapper;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @Component
 public class TokenHandler {
@@ -26,8 +25,11 @@ public class TokenHandler {
         try {
             final DocumentContext doc = JsonPath.parse(message);
             sessionWrapper.setToken(jwtVerifier.verify(doc.read("$.token", String.class)));
-            final Permission[] perms = mapper.readValue(sessionWrapper.getToken().getClaims().get("pms").asString(), Permission[].class);
-            sessionWrapper.setInterests(Arrays.stream(perms).map(Permission::getProjectid).collect(Collectors.toList()));
+            sessionWrapper.setPermissions(
+                    Arrays.asList(
+                            mapper.readValue(sessionWrapper.getToken().getClaims().get("pms").asString(), Permission[].class)
+                    )
+            );
         } catch (JsonProcessingException e) {
             return false;
         }
