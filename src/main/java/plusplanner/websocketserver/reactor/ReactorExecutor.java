@@ -26,7 +26,7 @@ public class ReactorExecutor {
 
     private <T extends TypeReactor> T getReactor(List<T> reactors, String type) {
         return reactors.stream()
-                .filter(x -> x.getHandlingType() == type)
+                .filter(x -> x.getHandlingType().equals(type))
                 .findFirst().orElseThrow();
     }
 

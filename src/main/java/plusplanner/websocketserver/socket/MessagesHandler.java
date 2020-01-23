@@ -37,7 +37,7 @@ public class MessagesHandler extends TextWebSocketHandler {
     }
 
     @Override
-    public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+    public void handleTextMessage(WebSocketSession session, TextMessage message) {
         logger.info("received message: {}", message.getPayload());
         final SessionWrapper sessionWrapper = sessionList.getSession(session);
         if (!sessionWrapper.isComplete()) {

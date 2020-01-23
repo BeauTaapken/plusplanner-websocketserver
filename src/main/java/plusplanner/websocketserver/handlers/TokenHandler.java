@@ -23,8 +23,7 @@ public class TokenHandler {
 
     public boolean setToken(String message, SessionWrapper sessionWrapper) {
         try {
-            final DocumentContext doc = JsonPath.parse(message);
-            sessionWrapper.setToken(jwtVerifier.verify(doc.read("$.token", String.class)));
+            sessionWrapper.setToken(jwtVerifier.verify(message));
             sessionWrapper.setPermissions(
                     Arrays.asList(
                             mapper.readValue(sessionWrapper.getToken().getClaims().get("pms").asString(), Permission[].class)
