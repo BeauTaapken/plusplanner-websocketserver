@@ -9,5 +9,21 @@ public abstract class HandlerMethod extends TypeReactor {
         super(type);
     }
 
-    public abstract void handle(JSONObject jsonObject);
+    public void handle(JSONObject jsonObject){
+        switch (jsonObject.getString("action")) {
+            case "delete":
+                delete(jsonObject);
+                break;
+            case "update":
+                update(jsonObject);
+                break;
+            case "create":
+                create(jsonObject);
+                break;
+        }
+    }
+
+    abstract void delete(JSONObject jsonObject);
+    abstract void update(JSONObject jsonObject);
+    abstract void create(JSONObject jsonObject);
 }

@@ -17,7 +17,17 @@ public class PartHandlerMethod extends HandlerMethod {
     }
 
     @Override
-    public void handle(JSONObject jsonObject) {
+    void delete(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    void update(JSONObject jsonObject) {
+
+    }
+
+    @Override
+    void create(JSONObject jsonObject) {
         final HttpEntity httpEntity = new HttpEntity(jsonObject.get("element").toString());
         restTemplate.postForObject("https://plus-planner-container-service/part/create", httpEntity, String.class);
     }
