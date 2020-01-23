@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.util.List;
+
 @Getter
 public class SessionWrapper {
     private final WebSocketSession session;
     @Setter
-    private String interest;
+    private List<String> interests;
     @Setter
     private DecodedJWT token;
 
@@ -20,6 +22,6 @@ public class SessionWrapper {
     }
 
     public boolean isComplete(){
-        return !(token == null || interest == null || session == null);
+        return !(token == null || interests == null || session == null);
     }
 }

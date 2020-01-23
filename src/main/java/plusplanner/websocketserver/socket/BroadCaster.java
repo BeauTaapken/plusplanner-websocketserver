@@ -23,7 +23,7 @@ public class BroadCaster {
         final List<SessionWrapper> sws = sessions.getSessions();
         final TextMessage textMessage = new TextMessage(jsonObject.toString());
         for (SessionWrapper webSocketSession : sws) {
-            if (webSocketSession.getInterest().equals(projectid)) {
+            if (webSocketSession.getInterests().contains(projectid)) {
                 try {
                     webSocketSession.getSession().sendMessage(textMessage);
                 } catch (IOException e) {

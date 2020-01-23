@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Role {
+public class Permission {
     private String projectid;
-    private String role;
+    private RoleType role;
 }

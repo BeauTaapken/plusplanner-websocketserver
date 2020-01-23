@@ -6,10 +6,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import org.springframework.stereotype.Component;
-import plusplanner.websocketserver.models.Role;
+import plusplanner.websocketserver.models.Permission;
 import plusplanner.websocketserver.models.SessionWrapper;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Component
 public class TokenHandler {
@@ -25,11 +26,8 @@ public class TokenHandler {
         try {
             final DocumentContext doc = JsonPath.parse(message);
             sessionWrapper.setToken(jwtVerifier.verify(doc.read("$.token", String.class)));
-            final Role[] perms = mapper.readValue(sessionWrapper.getToken().getClaims().get("pms").asString(), Role[].class);
-            if (Arrays.stream(perms).noneMatch(x -> x.getProjectid().equals(doc.read("$.interest", String.class)))) {
-                return false;
-            }
-            sessionWrapper.setInterest(doc.read("$.interest", String.class));
+            final Permission[] perms = mapper.readValue(sessionWrapper.getToken().getClaims().get("pms").asString(), Permission[].class);
+            sessionWrapper.setInterests(Arrays.stream(perms).map(Permission::getProjectid).collect(Collectors.toList()));
         } catch (JsonProcessingException e) {
             return false;
         }
