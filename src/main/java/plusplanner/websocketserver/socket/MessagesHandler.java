@@ -41,10 +41,13 @@ public class MessagesHandler extends TextWebSocketHandler {
         logger.info("received message: {}", message.getPayload());
         final SessionWrapper sessionWrapper = sessionList.getSession(session);
         if (!sessionWrapper.isComplete()) {
+            logger.info("setting token");
             if (!tokenHandler.setToken(message.getPayload(), sessionWrapper)) {
+                logger.info("failed to set token");
                 sessionList.removeSession(session);
             }
         } else if (!reactorExecutor.handle(message.getPayload(), sessionWrapper)) {
+            logger.info("failed to process message");
             sessionList.removeSession(session);
         }
     }
