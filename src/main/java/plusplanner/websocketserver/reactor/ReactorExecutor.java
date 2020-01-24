@@ -5,10 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import plusplanner.websocketserver.handlers.HandlerMethod;
 import plusplanner.websocketserver.models.Permission;
 import plusplanner.websocketserver.models.SessionWrapper;
 import plusplanner.websocketserver.socket.BroadCaster;
+import plusplanner.websocketserver.url.RequestMaker;
 import plusplanner.websocketserver.validators.Validator;
 
 import java.util.List;
@@ -16,14 +16,14 @@ import java.util.List;
 @Component
 public class ReactorExecutor {
     private final Logger logger = LoggerFactory.getLogger(ReactorExecutor.class);
-    private final List<HandlerMethod> handlerMethods;
     private final List<Validator> validators;
+    private final RequestMaker requestMaker;
     private final BroadCaster broadCaster;
 
     @Autowired
-    public ReactorExecutor(List<HandlerMethod> handlerMethods, List<Validator> validators, BroadCaster broadCaster) {
-        this.handlerMethods = handlerMethods;
+    public ReactorExecutor(List<Validator> validators, RequestMaker requestMaker, BroadCaster broadCaster) {
         this.validators = validators;
+        this.requestMaker = requestMaker;
         this.broadCaster = broadCaster;
     }
 
@@ -40,7 +40,6 @@ public class ReactorExecutor {
             final String type = jsonObject.getString("type");
             logger.info("getting reactors for: {}", type);
             final Validator validator = getReactor(validators, type);
-            final HandlerMethod handlerMethod = getReactor(handlerMethods, type);
             logger.info("validating");
             final String projectid =  jsonObject.getString("projectid");
             final Permission permission = sessionWrapper.getPermissions().stream()
@@ -51,7 +50,7 @@ public class ReactorExecutor {
                 return false;
             }
             logger.info("using handler");
-            handlerMethod.handle(jsonObject);
+            requestMaker.doRequest(jsonObject);
             logger.info("broadcasting");
             broadCaster.broadCast(jsonObject, projectid);
             return true;

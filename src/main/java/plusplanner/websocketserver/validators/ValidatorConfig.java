@@ -15,13 +15,15 @@ public class ValidatorConfig {
                                       MessageValidator messageValidator,
                                       SubPartValidator subPartValidator,
                                       ChannelValidator channelValidator,
-                                      ChatValidator chatValidator){
+                                      ChatValidator chatValidator,
+                                      RoleValidator roleValidator){
         final List<Validator> validators =  new ArrayList<>();
         validators.add(partValidator);
         validators.add(messageValidator);
         validators.add(subPartValidator);
         validators.add(channelValidator);
         validators.add(chatValidator);
+        validators.add(roleValidator);
         return validators;
     }
 }
