@@ -1,17 +1,17 @@
 language: java
 
- jdk:
+jdk:
   - oraclejdk11
 
- env:
+env:
   - MAVEN_VERSION=3.3.9
 
- addons:
-  sonarcloud:
-   organization: "beautaapken" # the key of the org you chose at step #
+addons:
+ sonarcloud:
+  organization: "beautaapken" # the key of the org you chose at step #
 
- install:
-  - "mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
+install:
+ - "mvn -N io.takari:maven:wrapper -Dmaven=${MAVEN_VERSION}"
 
- script:
-  - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=plusplanner-websocketserver
+script:
+ - mvn clean install sonar:sonar -Pcoverage -Dsonar.projectKey=plusplanner-websocketserver
